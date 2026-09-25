@@ -1,0 +1,33 @@
+{
+    "from": "User",
+    "inherits": "0.20mm Standard @Creality Ender3V2",
+    "name": "0.20mm Klipper fast",
+    "print_settings_id": "0.20mm Klipper fast",
+    "version": "2.3.2.75",
+    "print_extruder_id": [
+        "1"
+    ],
+    "print_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "reduce_crossing_wall": "1",
+    "accel_to_decel_enable": "0",
+    "default_acceleration": "3000",
+    "outer_wall_acceleration": "2000",
+    "inner_wall_acceleration": "3000",
+    "sparse_infill_acceleration": "3000",
+    "internal_solid_infill_acceleration": "3000",
+    "top_surface_acceleration": "2000",
+    "initial_layer_acceleration": "500",
+    "travel_acceleration": "3000",
+    "bridge_acceleration": "1000",
+    "outer_wall_speed": "60",
+    "inner_wall_speed": "90",
+    "sparse_infill_speed": "110",
+    "internal_solid_infill_speed": "90",
+    "top_surface_speed": "60",
+    "gap_infill_speed": "60",
+    "initial_layer_speed": "25",
+    "initial_layer_infill_speed": "40",
+    "travel_speed": "180"
+}

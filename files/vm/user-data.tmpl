@@ -1,0 +1,18 @@
+#cloud-config
+# Rendered by files/mac/create-vm.sh (@SSH_KEYS@ becomes the key list).
+users:
+  - name: klipper
+    groups: [sudo, dialout, tty]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+@SSH_KEYS@
+package_update: true
+packages: [linux-image-arm64, qemu-guest-agent, python3-serial, socat, rsync, git, unzip, avahi-daemon]
+runcmd:
+  # the genericcloud kernel has no USB/serial drivers; keep only the generic one
+  - [sh, -c, "DEBIAN_FRONTEND=noninteractive apt-get purge -y linux-image-cloud-arm64 'linux-image-*-cloud-arm64'"]
+  - [chmod, "711", /home/klipper]
+power_state:
+  mode: reboot
+  condition: true

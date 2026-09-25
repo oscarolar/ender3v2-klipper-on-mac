@@ -1,0 +1,2 @@
+instance-id: @VM_NAME@-01
+local-hostname: @VM_NAME@

@@ -1,0 +1,13 @@
+version: 2
+ethernets:
+  lan0:
+    match:
+      macaddress: "@LAN_MAC@"
+    set-name: lan0
+    dhcp4: true
+  host0:
+    match:
+      macaddress: "@HOST_MAC@"
+    set-name: host0
+    dhcp4: false
+    addresses: [@VM_IP@/24]

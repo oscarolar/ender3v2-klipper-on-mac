@@ -1,0 +1,17 @@
+# Printer serial from the Mac's TCP bridge as /dev/printer for Klippy.
+# 192.168.64.1:7523 is UTM's shared-network host address; install-stack.sh
+# rewrites it from BRIDGE_ADDR. Installed disabled: enable it at the cutover,
+# because while it runs the bridge opens the printer's port.
+[Unit]
+Description=Printer serial over TCP from the Mac (/dev/printer)
+After=network-online.target
+Wants=network-online.target
+Before=klipper.service
+
+[Service]
+ExecStart=/usr/bin/socat pty,link=/dev/printer,raw,echo=0,group=dialout,mode=660 tcp:192.168.64.1:7523,nodelay
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

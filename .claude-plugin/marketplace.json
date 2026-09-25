@@ -1,0 +1,15 @@
+{
+  "name": "ender3v2-klipper-on-mac",
+  "owner": {
+    "name": "oscarolar",
+    "url": "https://github.com/oscarolar"
+  },
+  "description": "Move a Creality Ender 3 V2 from Marlin to Klipper with the Klipper host in a UTM VM on an Apple Silicon Mac (no Raspberry Pi), then calibrate it.",
+  "plugins": [
+    {
+      "name": "ender3v2-klipper-on-mac",
+      "source": "./",
+      "description": "Skill, scripts and configs to run Klipper for an Ender 3 V2 in a headless Debian VM on a Mac, with the printer's USB serial bridged over TCP, plus a full calibration method."
+    }
+  ]
+}
