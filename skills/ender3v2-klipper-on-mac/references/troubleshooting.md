@@ -12,6 +12,18 @@ Check from the outside in. `<vm>` = the SSH alias (`klipper-vm`),
 | 4 | Klippy state | `curl -s http://<vm-lan-ip>/printer/info` | `error`/`shutdown`: read `~/printer_data/logs/klippy.log`, then `FIRMWARE_RESTART` |
 | 5 | `FIRMWARE_RESTART` hangs, or klippy logs `Got EOF` / `Timeout with MCU` | — | `ssh <vm> 'sudo systemctl restart printer-pty; sleep 3; sudo systemctl restart klipper'`, then `FIRMWARE_RESTART` |
 
+## Failure at print start: probe or bridge?
+
+| Signature | Cause | Next |
+|---|---|---|
+| `Failed to verify BLTouch probe is raised`, `Probe triggered prior to movement`, probe LED blinking or solid red | probe pin | `print-start-and-probe.md` |
+| `Timer too close` or `Communication timeout during homing` in `klippy.log`, the dumped trapq shows a probe/homing move, printer state `shutdown` | bridge timing | "Timing hardening" in `host-vm-and-bridge.md` |
+
+After a power cycle for a solid red LED: `BLTOUCH_DEBUG COMMAND=reset`,
+`QUERY_PROBE` must answer `open`, then relaunch the print. Symptoms do not
+tell a clone from a genuine CR Touch; the settings in
+`print-start-and-probe.md` are safe for both.
+
 ## Symptoms
 
 | Symptom | Where the answer is |
@@ -31,10 +43,7 @@ Check from the outside in. `<vm>` = the SSH alias (`klipper-vm`),
 `srtt`, `bytes_retransmit`, `bytes_invalid`. Thresholds are in
 `go-no-go-and-rollback.md`.
 
-## Obico (optional remote access)
+## Obico
 
-Install `moonraker-obico` in the VM with its own `install.sh`, then uncomment
-its includes in `printer.cfg` and `moonraker.conf`. To relink after a VM
-rebuild: `cd ~/moonraker-obico && ./install.sh -L`, and in the Obico app
-choose Add printer → the "generic Klipper" option, then enter the 6-digit
-code (the human does this step).
+Setup and relinking after a VM rebuild: "Remote access" in
+`host-vm-and-bridge.md`.

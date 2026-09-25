@@ -94,4 +94,13 @@ Without App Nap off and the interactive bridge, homing aborted with
   update of static config files must not restart services mid-print.
 - Orca uploads through `[octoprint_compat]` (see `slicer-orca.md`).
 
+## Remote access (optional)
+
+- **Obico**: install `moonraker-obico` in the VM with its own `install.sh`, then
+  uncomment its includes in `printer.cfg` and `moonraker.conf`. The human links
+  it in the Obico app (Add printer → the "generic Klipper" option, 6-digit
+  code). After a VM rebuild: `cd ~/moonraker-obico && ./install.sh -L`.
+- **Alternative**: Tailscale or another VPN on the Mac, then Mainsail over it.
+- Never port-forward Moonraker or Mainsail to the internet.
+
 Next: `firmware-and-cutover.md`.

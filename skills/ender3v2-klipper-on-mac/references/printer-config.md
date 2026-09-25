@@ -9,7 +9,8 @@ from memory or from other boards' configs.
 
 | Item | Correct for 4.2.2 + CR Touch on the BLTouch port | Common wrong value |
 |---|---|---|
-| Probe pins | `sensor_pin: ^PB1`, `control_pin: PB0` | `^PC14` / `PA1` (other boards; PA1 is the hotend heater) |
+| Probe section | `[bltouch]` is **not** in the upstream example file: add it yourself | assuming the upstream file has it |
+| Probe pins | `sensor_pin: ^PB1`, `control_pin: PB0` (the 4.2.2 BLTouch port) | `^PC14` / `PA1` (other boards; PA1 is the hotend heater) |
 | Probe offsets, stock CR Touch mount | `x_offset: -40`, `y_offset: -5` | `-44 / -8` (other mounts) |
 | Stepper drivers | standalone, no `[tmc2208 ...]` sections, no UART | TMC UART sections |
 | MCU | `serial: /dev/printer` (the socat pty), `baud: 250000`, `restart_method: command` | `/dev/serial/by-id/...` (there is no USB in the VM) |

@@ -13,7 +13,7 @@ Klipper host in a headless Debian 12 arm64 UTM VM on an always-on Apple Silicon 
 
 ## Phases
 
-1. **A: host, printer untouched** — VM, bridge, timing hardening, reboot test. `references/host-vm-and-bridge.md`
+1. **A: host, printer untouched** — VM, bridge, timing hardening, reboot test, optional remote access (Obico or VPN, never port-forwarding). `references/host-vm-and-bridge.md`
 2. **B: cutover, human at the printer** — save Marlin state, flash, home. `references/firmware-and-cutover.md`, `references/printer-config.md`
 3. **Calibration** — PID → 100 mm extrusion → `PROBE_CALIBRATE` → `SCREWS_TILT_CALCULATE` → `AXIS_TWIST_COMPENSATION_CALIBRATE` → mesh → PA tower → ringing tower → retraction tower → 5-disc adhesion. `references/calibration.md`, `references/print-start-and-probe.md`, `references/slicer-orca.md`
 4. **Go/no-go print, then keep or roll back.** `references/go-no-go-and-rollback.md`
@@ -24,8 +24,8 @@ Stuck: `references/troubleshooting.md`.
 
 - Anything that moves or heats: the human confirms presence and a clear bed first.
 - Ask the human only for physical feedback: paper feel, knob turns, tower heights.
-- Read every result as numbers through Moonraker: `POST /printer/gcode/script`, `GET /printer/objects/query`, `GET /server/gcode_store` (`files/tools/moonraker.sh`). Never read graphs.
-- nginx cuts requests at 60 s while Klipper keeps running: poll long commands (PID, meshes).
+- Read results as numbers via Moonraker: `POST /printer/gcode/script`, `GET /printer/objects/query`, `GET /server/gcode_store` (`files/tools/moonraker.sh`). Never read graphs.
+- nginx cuts requests at 60 s while Klipper keeps running: poll long commands (PID, mesh).
 
 ## Quick reference
 
@@ -50,9 +50,9 @@ Stuck: `references/troubleshooting.md`.
 | More samples/touch mode fix a flaky clone | `samples: 2`, mesh `SAMPLES=1`, stow each sample, no touch mode | print-start-and-probe |
 | PA `FACTOR=.005`, tower at any speed | Bowden `.020`, within hotend flow | calibration |
 | No accelerometer, skip ringing | Manual ringing tower | calibration |
-| Twist calibration in nozzle coords | Probe coords | printer-config |
+| Twist in nozzle coords | Probe coords | printer-config |
 | Tram and mesh harder | X gantry first | calibration |
-| Reuse the firmware file name | Never-used name; save Marlin `.bin` and `M503` first | firmware-and-cutover |
+| Reuse the firmware file name | New name; save Marlin `.bin`, `M503` first | firmware-and-cutover |
 | Switch after a short test | ≥1 h (ideally ~3 h) gate | go-no-go-and-rollback |
 | USB passthrough will work | Not headless; seed ISO on VirtIO | host-vm-and-bridge |
 | Klipper's `install-debian.sh` | Python 2: own venv + unit | host-vm-and-bridge |

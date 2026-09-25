@@ -4,6 +4,8 @@ users:
   - name: klipper
     groups: [sudo, dialout, tty]
     shell: /bin/bash
+    # passwordless sudo is a convenience for a VM reachable only on your LAN and
+    # the host-only net; tighten it if the VM is exposed any further
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
 @SSH_KEYS@

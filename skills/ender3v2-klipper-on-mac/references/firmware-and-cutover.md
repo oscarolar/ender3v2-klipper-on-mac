@@ -36,6 +36,14 @@ grep -E '^CONFIG_(MACH_STM32F103|STM32_FLASH_START_7000|STM32_SERIAL_USART1|SERI
 ls -la out/klipper.bin     # ~25-35 KB
 ```
 
+If `ender3v2-422.config` is missing, run `make menuconfig` instead: enable
+"low-level configuration options", micro-controller **STMicroelectronics STM32**,
+processor model **STM32F103**, bootloader offset **28KiB bootloader**,
+communication interface **Serial (on USART1 PA10/PA9)**; leave the rest at
+the defaults. Either way, `.config` must contain `CONFIG_MACH_STM32F103=y`,
+`CONFIG_STM32_FLASH_START_7000=y` and `CONFIG_STM32_SERIAL_USART1=y`
+(the `grep` above).
+
 Copy `out/klipper.bin` to the Mac (`scp klipper-vm:klipper/out/klipper.bin .`).
 
 ## 4. Flash (human)
@@ -67,7 +75,10 @@ retry with another new name.
    (left, front) and stops. Wrong way: invert that `dir_pin`, `FIRMWARE_RESTART`.
 3. Probe self-test: `BLTOUCH_DEBUG COMMAND=pin_down`, `pin_up`, `QUERY_PROBE`
    (must say `open`).
-4. 20 × `G28` in a row; count failures from the console. Probe failures here
-   are handled in `print-start-and-probe.md`.
+4. 20 × `G28` in a row; count failures from the console. The threshold is
+   **20/20**: any failure means stop and fix it before calibrating. Tell probe
+   failures from link failures with the table in `troubleshooting.md`, then
+   fix the probe (`print-start-and-probe.md`) or the link and App Nap
+   ("Timing hardening" in `host-vm-and-bridge.md`).
 
 Next: `calibration.md`.

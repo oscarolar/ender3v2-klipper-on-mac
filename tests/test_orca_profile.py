@@ -70,6 +70,8 @@ def test_fast_process_within_limits():
     assert p["inherits"] == "0.20mm Standard @Creality Ender3V2"
     assert p["reduce_crossing_wall"] == "1"
     assert "wipe" not in p
+    # must match the stock Creality Ender-3 V2 system profiles (generic key)
+    assert p["print_extruder_variant"] == ["Direct Drive Standard"]
     accels = [int(v) for k, v in p.items() if k.endswith("_acceleration")]
     assert max(accels) <= 3000
     # flow at 0.45 mm line x 0.2 mm layer stays under a stock hotend's ~12 mm3/s

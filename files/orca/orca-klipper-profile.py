@@ -67,6 +67,9 @@ def build_process(name="0.20mm Klipper fast"):
         "print_settings_id": name,
         "version": "2.3.2.75",
         "print_extruder_id": ["1"],
+        # Orca's generic single-extruder variant key, the one the stock "Creality
+        # Ender-3 V2" system profiles use. Not a hardware claim: do not change it
+        # to a bowden value (this profile works as is in Orca 2.4.2).
         "print_extruder_variant": ["Direct Drive Standard"],
         "reduce_crossing_wall": "1",  # travel inside the part: fewer strings between islands
         "accel_to_decel_enable": "0",  # ACCEL_TO_DECEL is deprecated in Klipper
