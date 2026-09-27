@@ -38,3 +38,12 @@ first layer 500, bridges 1000), outer wall 60, inner wall 90, sparse infill
 110, solid infill 90, travel 180 mm/s, first layer 25. Sparse infill at 110
 mm/s is 0.45 × 0.2 × 110 = 9.9 mm³/s, inside a stock hotend's ~12 mm³/s.
 Example: a bust went from 4 h 05 to 1 h 51 (2.2×) with no visible loss.
+
+## Slicing from the Orca command line
+
+When an agent slices with the `OrcaSlicer` binary instead of the GUI, the
+filament's bed temperature can come out wrong (35 °C instead of the preset
+value), both in `PRINT_START BED=` and in the `M140` after the first layer.
+Before uploading, check every bed temperature in the file
+(`grep -nE '^(PRINT_START|M140|M190)' file.gcode`) and fix all of them, not
+just the start line: 35 °C on glass lets PLA lift and marks the layer lines.

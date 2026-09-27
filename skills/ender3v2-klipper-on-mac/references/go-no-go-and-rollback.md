@@ -31,7 +31,7 @@ print('bytes_retransmit last:', rt[-1] if rt else None, 'bytes_invalid last:', i
 | `Lost communication with MCU` | 0 |
 | `srtt` | stable (a few ms; 5–6 ms seen) |
 | `bytes_invalid` | 0 |
-| `bytes_retransmit` | near 0; isolated bursts of a few hundred bytes every 2–3 h were seen and were harmless |
+| `bytes_retransmit` | near 0; isolated bursts of a few hundred bytes every 2–3 h are normal, but one landing on dense short moves can end the print with `Timer too close` (seen once: 121-byte burst, `sysload` 0.04, Benchy at 86 %) |
 | The part | complete, no extrusion stops or layer shifts |
 
 Errors during homing/probing at print start are a separate problem
@@ -46,10 +46,15 @@ Reference result: a 2 h 45 min print, 0 / 0, `srtt` 5–6 ms,
 - Record the calibration results (PID, z_offset, PA, max_accel, retraction,
   mesh range) somewhere outside the VM.
 - Back up `~/printer_data/config/` from the VM.
-- Remember: a Mac reboot stops a print (heaters off). `PLR_RESUME` resumes
-  from the last layer saved by `PLR_SAVE`: it trusts the saved Z, homes only X
-  and Y, and restarts the file at the saved byte. Run it only with the human's
-  OK, after checking the part is still on the bed.
+- Remember: a Mac reboot or an MCU shutdown stops a print (heaters off).
+  `PLR_RESUME` resumes from the last layer saved by `PLR_SAVE`: it trusts the
+  saved Z, homes only X and Y, and restarts the file at the saved byte. Run it
+  only with the human's OK, after checking the part is still on the bed.
+- After a stop the nozzle usually rests on the part and cools into it. Nothing
+  may move Z until the nozzle is back at print temperature: a cold lift rips
+  the part off the bed. The shipped `PLR_RESUME` waits (`M109`) before its
+  lift; keep that order in any hand-written recovery, and after `FIRMWARE_RESTART`
+  send no `G1 Z`/`G28` until the hotend is hot.
 
 ## Fail: roll back to Marlin
 
