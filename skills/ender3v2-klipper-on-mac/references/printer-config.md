@@ -45,8 +45,13 @@ read those two with some tolerance. `screw_thread: CW-M4`.
   `SET_KINEMATIC_POSITION`, which only exists with it.
 - `[save_variables]`: storage for `PLR_SAVE`. File names go through Klipper's
   shlex (posix) parser: `PLR_SAVE` escapes `\` and `"` so names with spaces,
-  quotes, `;` or `#` survive. A `%` in a name breaks `save_variables`
-  (ConfigParser), so such prints get no resume point and a warning.
+  quotes, `;` or `#` survive. A `%` (Orca adds one to scaled models, e.g.
+  `Model+70%.gcode`) makes `save_variables` (ConfigParser) raise and shut
+  Klipper down, so `PLR_SAVE` stores it as `__PCT__` and `PLR_RESUME` decodes it.
+- Macro edits load only on `RESTART`/`FIRMWARE_RESTART`, which ends a running
+  print: upload the file mid-print and it takes effect at the next restart
+  (such as the one before a `PLR_RESUME`). Render-test the template first; a
+  Jinja error there stops Klipper from starting.
 - Probe settings live in `print-start-and-probe.md`.
 
 ## SAVE_CONFIG
