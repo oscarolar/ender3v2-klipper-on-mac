@@ -48,7 +48,7 @@ def build(src, host, name=DEFAULT_NAME):
         "machine_start_gcode": ("PRINT_START BED=[bed_temperature_initial_layer_single] "
                                 "EXTRUDER=[nozzle_temperature_initial_layer]"),
         "machine_end_gcode": "PRINT_END",
-        "layer_change_gcode": "PLR_SAVE LAYER=[layer_num] Z=[layer_z]",
+        "layer_change_gcode": "G92 E0\nPLR_SAVE LAYER=[layer_num] Z=[layer_z]",
         "use_firmware_retraction": "1",
         "use_relative_e_distances": "1",
         "retraction_length": ["1.5"],

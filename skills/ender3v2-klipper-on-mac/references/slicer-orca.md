@@ -21,7 +21,7 @@ is the process it writes, for reference or manual import.
 | Host type / host | Octo/Klipper, `<vm-lan-ip>` | Moonraker's `[octoprint_compat]` accepts Orca's upload |
 | Start G-code | `PRINT_START BED=[bed_temperature_initial_layer_single] EXTRUDER=[nozzle_temperature_initial_layer]` | all heating, homing and probing live in the macro |
 | End G-code | `PRINT_END` | |
-| Layer change G-code | `PLR_SAVE LAYER=[layer_num] Z=[layer_z]` | power-loss resume point |
+| Layer change G-code | `G92 E0` then `PLR_SAVE LAYER=[layer_num] Z=[layer_z]` | power-loss resume point; with relative E, Orca refuses to slice without `G92 E0` in the layer G-code |
 | Use firmware retraction | on | retraction length comes from `[firmware_retraction]` |
 | Relative E | on | matches `M83` in `PRINT_START` |
 | Machine limits accel X/Y/extruding/travel | = Klipper `max_accel` (3000) | Orca silently clamps process accelerations to these limits |

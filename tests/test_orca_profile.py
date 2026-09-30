@@ -33,7 +33,7 @@ def test_klipper_profile_fields():
         "PRINT_START BED=[bed_temperature_initial_layer_single] "
         "EXTRUDER=[nozzle_temperature_initial_layer]")
     assert p["machine_end_gcode"] == "PRINT_END"
-    assert p["layer_change_gcode"] == "PLR_SAVE LAYER=[layer_num] Z=[layer_z]"
+    assert p["layer_change_gcode"] == "G92 E0\nPLR_SAVE LAYER=[layer_num] Z=[layer_z]"
     assert p["use_firmware_retraction"] == "1"
     assert p["use_relative_e_distances"] == "1"
 
