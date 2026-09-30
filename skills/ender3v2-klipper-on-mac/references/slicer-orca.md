@@ -47,3 +47,23 @@ value), both in `PRINT_START BED=` and in the `M140` after the first layer.
 Before uploading, check every bed temperature in the file
 (`grep -nE '^(PRINT_START|M140|M190)' file.gcode`) and fix all of them, not
 just the start line: 35 °C on glass lets PLA lift and marks the layer lines.
+
+## Per-filament pressure advance and retraction
+
+Klipper, not Orca, holds `pressure_advance` and `[firmware_retraction]`, so
+they apply to every filament until something changes them. Give **every**
+filament preset a Filament start G-code (Orca emits it after `PRINT_START`)
+that sets both; otherwise a PETG print leaves PETG values active for the next
+PLA print:
+
+```
+SET_PRESSURE_ADVANCE ADVANCE=<this filament's PA>
+SET_RETRACTION RETRACT_LENGTH=<mm> RETRACT_SPEED=<mm/s> UNRETRACT_SPEED=<mm/s>
+```
+
+PETG on this stock hotend: nozzle 235–240 °C (the PTFE-lined heatbreak must
+stay at or below 240 °C even if the spool allows 250), bed 70 °C, part fan
+30–50 % and off for the first 3 layers, Max volumetric speed 8 mm³/s,
+retraction speed 25 mm/s. Start PA near 0.40 and tune it with the PA tower
+(`calibration.md`); on a glass bed use glue stick as a release layer, because
+PETG can pull chips out of clean glass.
